@@ -1,0 +1,60 @@
+<project name="luke's ivy test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"   default="all">
+
+    <property file="${basedir}/build.properties" />
+
+    <target name="all" description="does it all in order" depends="hello,clean,getdependencies,JunitTest">
+        <echo message="Now I am done!!!"/>
+    </target>
+
+    <target name="hello" description="say hello">
+        <echo message="Hello!!!"/>
+    </target>
+
+    <target name="getdependencies" description="retrieve the dependencies and more">
+
+        <ivy:settings url="http://artifactory.cpt.intecbilling.com/ivy/ivysettings.xml"/>
+
+        <ivy:resolve file="${basedir}/ivy_dependencies.xml" />
+
+        <ivy:retrieve type="jar,bundle" pattern="${basedir}/${lib.folder}/[artifact].[ext]" ivypattern="${basedir}/${lib.folder}/[artifact].[ext]" />
+
+    </target>
+
+    <target name="compile" depends="getdependencies">
+
+        <javac destdir="${basedir}/out/test/hello_world" srcdir="${basedir}/src" includeantruntime="false">
+
+            <classpath>
+                <pathelement location="${basedir}/lib/junit.jar"/>
+
+            </classpath>
+
+        </javac>
+
+    </target>
+
+
+
+    <target name="JunitTest" depends="compile">
+
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement location="${basedir}/lib/junit.jar"/>
+                <pathelement location="${basedir}/out/test/hello_world"/>
+            </classpath>
+
+            <test name="Test" haltonfailure="no" outfile="result">
+                <formatter type="plain"/>
+                <formatter type="xml"/>
+
+            </test>
+        </junit>
+    </target>
+
+    <target name="clean" description="removes lib folder">
+        <delete dir="${basedir}/lib"/>
+    </target>
+
+
+
+</project>
