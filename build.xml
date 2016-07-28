@@ -26,6 +26,7 @@
 
             <classpath>
                 <pathelement location="${basedir}/lib/junit.jar"/>
+                <pathelement location="${basedir}/lib/hamcrest-core.jar"/>
 
             </classpath>
 
@@ -40,6 +41,7 @@
         <junit printsummary="yes" haltonfailure="yes">
             <classpath>
                 <pathelement location="${basedir}/lib/junit.jar"/>
+                <pathelement location="${basedir}/lib/hamcrest-core.jar"/>
                 <pathelement location="${basedir}/out/test/hello_world"/>
             </classpath>
 
